@@ -1,0 +1,12 @@
+CMD ["postgres"]
+find / -name postgresql.conf 2>/dev/null
+/var/lib/postgresql/data/postgresql.conf
+
+
+make pgadmin
+sudo docker exec -it pgadmin bash -l
+OCI runtime exec failed: exec failed: unable to start container process: exec: "bash": executable file not found in $PATH: unknown
+Makefile:26: recipe for target 'pgadmin' failed
+make: *** [pgadmin] Error 126
+
+nano /var/lib/postgresql/data/pg_hba.conf

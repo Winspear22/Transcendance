@@ -12,10 +12,21 @@ services:
     ports:
       - "5432:5432"
 
+  pgadmin:
+    container_name: pgadmin
+    build:
+      context: ./src/pgAdmin
+    restart: always
+    ports:
+      - "8080:80"
+    depends_on:
+      - postgresql
+    env_file: .env
+
 volumes:
   db-data:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: /Users/administrateur/42/data/db-data
+      device: /home/user42/Bureau/VolumeTranscendance
