@@ -1,8 +1,4 @@
-CREATE USER docker_user;
-CREATE DATABASE testinit;
-GRANT ALL PRIVILEGES ON DATABASE testinit TO docker_user;
-
-\connect testinit;
+\connect pong_db;
 
 CREATE TABLE player (
     id_player SERIAL PRIMARY KEY,
