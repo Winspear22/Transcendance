@@ -11,6 +11,11 @@ rm:
 rmi:
 	docker-compose down --rmi all
 
+fclean:
+	sudo docker-compose -f docker-compose.yml down \
+	&& sudo docker system prune -a --force \
+	&& sudo rm -Rf /home/user42/Bureau/VolumeTranscendance/*
+
 show:
 	sudo docker container ps -a
 
@@ -27,5 +32,15 @@ pgadmin:
 pgadmin_sudo:
 	sudo docker exec -u 0 -it pgadmin sh
 
+retry:
+	make down
+	make volume_delete
+	sudo find /home/user42/Bureau/VolumeTranscendance -mindepth 1 -delete
+	make fclean
+	make up
+inspect:
+	sudo docker inspect postgresql | grep "IPAddress"
 
-.PHONY: up down rm rmi show volume_show volume_delete
+.PHONY: up down rm rmi show volume_show volume_delete \
+post pgadmin pgadmin_sudo fclean inspect retry all
+

@@ -5,6 +5,8 @@ ENV POSTGRES_USER=${POSTGRES_USER}
 ENV POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
 ENV POSTGRES_DB=${POSTGRES_DB}
 
+COPY 01-init.sql /docker-entrypoint-initdb.d/
+
 #CMD psql -U postgre -d pong
 
 # Exposer le port PostgreSQL
