@@ -29,6 +29,8 @@ post:
 	sudo docker exec -it postgresql bash -l
 pgadmin:
 	sudo docker exec -it pgadmin sh
+node:
+	sudo docker exec -it nestjs-app bash -l
 pgadmin_sudo:
 	sudo docker exec -u 0 -it pgadmin sh
 

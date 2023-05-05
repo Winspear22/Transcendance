@@ -1,18 +1,25 @@
 FROM postgres:13
-
-# Récupérer les variables d'environnement depuis le fichier .env
+RUN echo "\033[1;36m============================================\033[0m"
+RUN echo "\033[1;31m---------Installation de PostgreSQL---------\033[0m"
+RUN echo "\033[1;36m============================================\033[0m"
+RUN echo "\033[1;36m============================================\033[0m"
+RUN echo "\033[1;31m------------Gestion des var d'env-----------\033[0m"
+RUN echo "\033[1;36m============================================\033[0m"
 ENV POSTGRES_USER=${POSTGRES_USER}
 ENV POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
 ENV POSTGRES_DB=${POSTGRES_DB}
-
+RUN echo "\033[1;36m============================================\033[0m"
+RUN echo "\033[1;31m------------Copie du script SQL-------------\033[0m"
+RUN echo "\033[1;36m============================================\033[0m"
 COPY 01-init.sql /docker-entrypoint-initdb.d/
-
-#CMD psql -U postgre -d pong
-
-# Exposer le port PostgreSQL
+RUN echo "\033[1;36m============================================\033[0m"
+RUN echo "\033[1;31m-------------Expose du port 5432------------\033[0m"
+RUN echo "\033[1;36m============================================\033[0m"
 EXPOSE 5432
-
+RUN echo "\033[1;36m============================================\033[0m"
+RUN echo "\033[1;31m-----------Lancement de PostgreSQL----------\033[0m"
+RUN echo "\033[1;36m============================================\033[0m"
 CMD ["postgres", "-c", "config_file=/var/lib/postgresql/data/postgresql.conf"]
-#Au cas où ton conteneur ne trouve pas le fichier de config, lance la commande par défaut
-#tu peux trouver le fichier .conf avec la commande : find / -name postgresql.conf 2>/dev/null
-#CMD ["postgres"]
+RUN echo "\033[1;36m============================================\033[0m"
+RUN echo "\033[1;31m---------Fin du Dockerfile postgreSQL-------\033[0m"
+RUN echo "\033[1;36m============================================\033[0m"

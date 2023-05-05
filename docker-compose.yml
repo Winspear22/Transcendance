@@ -28,6 +28,18 @@ services:
       - postgresql
     env_file: .env
 
+  nestjs-app:
+    container_name: nestjs-app
+    build:
+      context: ./src/nestjs-app
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgresql
+    environment:
+      - DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgresql:5432/${POSTGRES_DB}
+
 volumes:
   db-data:
     driver: local
