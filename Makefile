@@ -18,6 +18,8 @@ fclean:
 
 show:
 	sudo docker container ps -a
+show_network:
+	sudo docker network ls
 
 volume_show:
 	sudo docker volume ls
@@ -44,5 +46,5 @@ inspect:
 	sudo docker inspect postgresql | grep "IPAddress"
 
 .PHONY: up down rm rmi show volume_show volume_delete \
-post pgadmin pgadmin_sudo fclean inspect retry all
+post pgadmin pgadmin_sudo fclean inspect retry all show_network
 

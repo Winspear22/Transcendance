@@ -1,15 +1,19 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { My_Message } from './message.entity';
+import { My_Membership } from './membership.entity';
+import { My_GameHistory } from './game_history.entity';
+import { My_Relation } from './relation.entity';
 
 @Entity('players')
-export class Player {
+export class My_Player {
   @PrimaryGeneratedColumn()
-  id: number;
+  player_id: number;
 
   @Column()
-  name: string;
+  mail: string;
 
   @Column()
-  email: string;
+  username: string;
 
   @Column()
   password: string
@@ -17,10 +21,33 @@ export class Player {
   @Column({ nullable: true })
   avatar: string;
 
-  @Column({type: 'boolean', default: 1, })
-  toto: boolean;
+  @Column()
+  status: string;
 
-  @Column({type: 'boolean', default: 1, })
-  toto2: boolean;
+  @Column()
+  level: number;
 
+  @Column()
+  wins: number;
+
+  @Column()
+  loses: number;
+
+  @Column({ type: 'boolean', default: false })
+  twoFA: boolean;
+
+  @OneToMany(() => My_Message, (message) => message.sender)
+  messages: My_Message[];
+
+  @OneToMany(() => My_Membership, (membership) => membership.user)
+  memberships: My_Membership[];
+
+  @OneToMany(() => My_GameHistory, (gameHistory) => gameHistory.winnerPlayer)
+  wonGames: My_GameHistory[];
+
+  @OneToMany(() => My_GameHistory, (gameHistory) => gameHistory.loserPlayer)
+  lostGames: My_GameHistory[];
+
+  @OneToMany(() => My_Relation, (relation) => relation.receiverPlayer)
+  receivedRelations: My_Relation[];
 }
