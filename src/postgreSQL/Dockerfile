@@ -1,4 +1,4 @@
-FROM postgres:13
+FROM postgres:14.2
 
 RUN echo "\033[1;36m============================================\033[0m" && \
     echo "\033[1;31m---------Installation de PostgreSQL---------\033[0m" && \

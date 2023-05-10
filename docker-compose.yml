@@ -30,10 +30,10 @@ services:
       - dataflow_network
 
 
-  nestjs-app:
-    container_name: nestjs-app
+  nestjs:
+    container_name: nestjs
     build:
-      context: ./src/nestjs-app
+      context: ./src/nestjs
     restart: always
     env_file:
       - .env
@@ -44,8 +44,21 @@ services:
     environment:
       - DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgresql:5432/${POSTGRES_DB}
     volumes:
-      - ./src/nestjs-app:/app
+      - ./src/nestjs:/app
       - /app/node_modules
+    networks:
+      - dataflow_network
+  
+  angular:
+    container_name: angular
+    build:
+      context: ./src/angular
+      dockerfile: Dockerfile
+    volumes:
+      - ./src/angular:/app
+      - /app/node_modules
+    ports:
+      - "8081:8081"
     networks:
       - dataflow_network
 
@@ -60,4 +73,4 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: /home/user42/Bureau/VolumeTranscendance
+      device: /home/adnen/Desktop/VolumeTranscendance

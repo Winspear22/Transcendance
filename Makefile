@@ -14,7 +14,7 @@ rmi:
 fclean:
 	sudo docker-compose -f docker-compose.yml down \
 	&& sudo docker system prune -a --force \
-	&& sudo rm -Rf /home/user42/Bureau/VolumeTranscendance/*
+	&& sudo rm -Rf /home/adnen/Desktop/VolumeTranscendance/*
 
 show:
 	sudo docker container ps -a
@@ -32,14 +32,14 @@ post:
 pgadmin:
 	sudo docker exec -it pgadmin sh
 node:
-	sudo docker exec -it nestjs-app bash -l
-pgadmin_sudo:
-	sudo docker exec -u 0 -it pgadmin sh
+	sudo docker exec -it nestjs bash -l
+angular:
+	sudo docker exec -it angular bash -l
 
 retry:
 	make down
 	make volume_delete
-	sudo find /home/user42/Bureau/VolumeTranscendance -mindepth 1 -delete
+	sudo find /home/adnen/Desktop/VolumeTranscendance -mindepth 1 -delete
 	make fclean
 	make up
 inspect:
