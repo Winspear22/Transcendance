@@ -9,6 +9,7 @@ import { My_Membership } from './entities/membership.entity';
 import { My_Message } from './entities/message.entity';
 import { My_Player } from './entities/player.entity';
 import { My_Relation } from './entities/relation.entity';
+import { ChatModule } from './chat/chat.module';
 dotenv.config();
 
 @Module({
@@ -23,6 +24,7 @@ dotenv.config();
       entities: [My_Player, My_Message, My_ChatRoom, My_GameHistory, My_Membership, My_Relation],
       synchronize: true, // Garder à 'false' en production
   }),
+    ChatModule,
   ],
   controllers: [AppController],
   providers: [AppService, AppService2],

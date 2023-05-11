@@ -15,7 +15,6 @@ services:
     networks:
       - dataflow_network
 
-
   pgadmin:
     container_name: pgadmin
     build:
@@ -28,7 +27,6 @@ services:
     env_file: .env
     networks:
       - dataflow_network
-
 
   nestjs:
     container_name: nestjs
@@ -45,10 +43,9 @@ services:
       - DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgresql:5432/${POSTGRES_DB}
     volumes:
       - ./src/nestjs:/app
-      - /app/node_modules
     networks:
       - dataflow_network
-  
+
   angular:
     container_name: angular
     build:
@@ -56,9 +53,8 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./src/angular:/app
-      - /app/node_modules
     ports:
-      - "8081:8081"
+      - "4200:4200"
     networks:
       - dataflow_network
 
