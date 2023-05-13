@@ -23,6 +23,7 @@ serveur.*/
 })
 export class ChatService {
 
+  /*--------------MESSAGE MANAGEMENT--------------*/
   constructor(private socket: Socket) { }
   sendMessage(msg: string): void 
   {
@@ -42,7 +43,22 @@ export class ChatService {
     .fromEvent<string>('newMessage');
 
   }
-  
+
+  /*--------------NICKNAME MANAGEMENT--------------*/
+  sendNickname(nickname: string): void
+  {
+    this.socket.emit('nickname', nickname);
+  }
+
+  listenForClients(): Observable<string[]>
+  {
+    return this.socket
+    .fromEvent<string[]>('clients');
+  }
+
+
+
+  /*--------------CONNECTION MANAGEMENT--------------*/
   disconnect(): void 
   {
     this.socket.disconnect();

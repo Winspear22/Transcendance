@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ChatService } from './shared/chat.service';
-import { Subject, take, takeUntil } from 'rxjs';
+import { Observable, Subject, take, takeUntil } from 'rxjs';
 
 /*===========================================================================================*/
 /*------------------------A QUOI SERT LE FICHIER CHAT.COMPONENT.TS ?-------------------------*/
@@ -22,14 +22,18 @@ l'envoi de nouveaux messages saisis par l'utilisateur.*/
 })
 export class ChatComponent implements OnInit, OnDestroy 
 {
+  constructor(private chatService: ChatService) {}
 
   message = new FormControl();
   messages: string[] = [];
   unsubscriber$ = new Subject();
-  constructor(private chatService: ChatService) {}
   
+  nickname: string | undefined;
+  nickNameFc = new FormControl();
+  clients$: Observable<string[]> | undefined;
   ngOnInit(): void 
   {
+    this.clients$ = this.chatService.listenForClients();
     console.log('Client\'s connection has been enabled');
     this.chatService.listenForMessages()
       .pipe(takeUntil(this.unsubscriber$))
@@ -52,5 +56,16 @@ export class ChatComponent implements OnInit, OnDestroy
   {
     console.log(this.message.value);
     this.chatService.sendMessage(this.message.value);
+  }
+
+  sendNickname(): void
+  {
+    if (this.nickNameFc.value)
+    {
+      console.log('Client\'s nickname is : ', this.nickNameFc.value);
+      this.nickname = this.nickNameFc.value;
+      this.chatService.sendNickname(this.nickNameFc.value);
+    }
+
   }
 }

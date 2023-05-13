@@ -1,4 +1,4 @@
-import { WebSocketGateway, SubscribeMessage, MessageBody, WebSocketServer, OnGatewayConnection, OnGatewayDisconnect } from '@nestjs/websockets';
+import { WebSocketGateway, SubscribeMessage, MessageBody, WebSocketServer, OnGatewayConnection, OnGatewayDisconnect, ConnectedSocket } from '@nestjs/websockets';
 import { Socket } from 'socket.io';
 
 /*===========================================================================================*/
@@ -22,6 +22,7 @@ au client  à tout moment et vice-versa.Cela est très utile pour notre PONG*/
 export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect
 {
     allMessages: string[] = [];
+    clients: Map<string, string> = new Map<string, string>();
     @WebSocketServer() server;
     @SubscribeMessage('message')
     handleChatEvent(@MessageBody() message: string): string 
@@ -41,8 +42,20 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect
     }
 
     //Cette fonction sert à inscrire dans le terminal l'ID du client qui vient de se déconnecter.
-    handleDisconnect(client: any): any
+    handleDisconnect(client: Socket): any
     {
-        console.log('Client n° disconnected : ', client.id);
+        this.clients.delete(client.id);
+        console.log('Client n° disconnected : ', this.clients);
+
+    }
+
+    @SubscribeMessage('nickname')
+
+    handleNicknameEvent(@MessageBody() nickname: string,
+    @ConnectedSocket() client: Socket): void 
+    {
+        this.clients.set(client.id, nickname);
+        console.log('Client\'s ID are : ', this.clients);
+        this.server.emit('clients', Array.from(this.clients.values()));
     }
 }
