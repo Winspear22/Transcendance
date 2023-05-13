@@ -1,6 +1,7 @@
 import { WebSocketGateway, SubscribeMessage, MessageBody, WebSocketServer, OnGatewayConnection, OnGatewayDisconnect, ConnectedSocket } from '@nestjs/websockets';
 import { Socket } from 'socket.io';
 import { ChatService } from './shared/chat.service';
+import { WelcomeDto } from './shared/welcome.dto.interface';
 
 /*===========================================================================================*/
 /*-------------------------A QUOI SERT LE FICHIER CHAT.GATEWAY.TS ?--------------------------*/
@@ -52,7 +53,10 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect
     @MessageBody() nickname: string,
     @ConnectedSocket() client: Socket): void 
     {
-        this.chatService.addClients(client.id, nickname);
+        const chatClient = this.chatService.addClients(client.id, nickname);
+        const welcome: WelcomeDto = { clients: this.chatService.getClients(),
+        messages: this.chatService.getMessages(), client: chatClient };
+        client.emit('welcome', welcome);
         this.server.emit('clients', Array.from(this.chatService.getClients()));
     }
 }

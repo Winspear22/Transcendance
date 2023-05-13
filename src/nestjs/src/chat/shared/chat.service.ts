@@ -16,9 +16,11 @@ export class ChatService
         return ChatMessage;
     }
 
-    addClients(id: string, nickname: string): void
+    addClients(id: string, nickname: string): ChatClient
     {
-        this.clients.push({id: id, nickname: nickname});
+        const chatClient: ChatClient = { id: id, nickname: nickname };
+        this.clients.push(chatClient);
+        return chatClient;
     }
 
     getClients(): ChatClient[]

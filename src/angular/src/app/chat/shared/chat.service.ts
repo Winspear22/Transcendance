@@ -3,6 +3,7 @@ import { Socket } from 'ngx-socket-io';
 import { Observable } from 'rxjs';
 import { ChatClient } from './chat-client';
 import { ChatMessage } from './chat-message';
+import { WelcomeDto } from './welcome.dto';
 
 /*===========================================================================================*/
 /*-------------------------A QUOI SERT LE FICHIER CHAT.SERVICE.TS ?--------------------------*/
@@ -59,6 +60,12 @@ export class ChatService {
   }
 
 
+  /*WELCOME MESSAGE*/
+  listenForWelcome(): Observable<WelcomeDto>
+  {
+    return this.socket
+    .fromEvent<WelcomeDto>('welcome');
+  }
 
   /*--------------CONNECTION MANAGEMENT--------------*/
   disconnect(): void 

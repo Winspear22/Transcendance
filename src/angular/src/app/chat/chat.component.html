@@ -1,4 +1,5 @@
-<div *ngIf="nickname">
+<div *ngIf="chatClient">
+    <h5>Bienvenu dans le Pong42 {{chatClient.nickname}}</h5>
     <label for="message">
         Message: 
     </label>
@@ -10,7 +11,7 @@
         {{chatMessage.sender.nickname}} : {{chatMessage.message}}
     </h4>
 </div>
-<div *ngIf="!nickname">
+<div *ngIf="!chatClient">
     <label for="message">
         Enter your nickname please :
     <input type="text" [formControl]="nickNameFc">
