@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 import { Observable } from 'rxjs';
+import { ChatClient } from './chat-client';
+import { ChatMessage } from './chat-message';
 
 /*===========================================================================================*/
 /*-------------------------A QUOI SERT LE FICHIER CHAT.SERVICE.TS ?--------------------------*/
@@ -30,17 +32,17 @@ export class ChatService {
     this.socket.emit('message', msg);
   }
 
-  getAllMessages(): Observable<string[]>
+  getAllMessages(): Observable<ChatMessage[]>
   {
     return this.socket
-    .fromEvent<string[]>('allMessages');
+    .fromEvent<ChatMessage[]>('allMessages');
 
   }
 
-  listenForMessages(): Observable<string>
+  listenForMessages(): Observable<ChatMessage>
   {
     return this.socket
-    .fromEvent<string>('newMessage');
+    .fromEvent<ChatMessage>('newMessage');
 
   }
 
@@ -50,10 +52,10 @@ export class ChatService {
     this.socket.emit('nickname', nickname);
   }
 
-  listenForClients(): Observable<string[]>
+  listenForClients(): Observable<ChatClient[]>
   {
     return this.socket
-    .fromEvent<string[]>('clients');
+    .fromEvent<ChatClient[]>('clients');
   }
 
 

@@ -1,5 +1,6 @@
 import { WebSocketGateway, SubscribeMessage, MessageBody, WebSocketServer, OnGatewayConnection, OnGatewayDisconnect, ConnectedSocket } from '@nestjs/websockets';
 import { Socket } from 'socket.io';
+import { ChatService } from './shared/chat.service';
 
 /*===========================================================================================*/
 /*-------------------------A QUOI SERT LE FICHIER CHAT.GATEWAY.TS ?--------------------------*/
@@ -21,41 +22,37 @@ au client  à tout moment et vice-versa.Cela est très utile pour notre PONG*/
 @WebSocketGateway( {cors: true} ) //imperatif pour que le dialogue cross (cors) se fasse entre nesjt et angular
 export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect
 {
-    allMessages: string[] = [];
-    clients: Map<string, string> = new Map<string, string>();
+    constructor(private chatService: ChatService) {}
+
     @WebSocketServer() server;
     @SubscribeMessage('message')
-    handleChatEvent(@MessageBody() message: string): string 
+    handleChatEvent(@MessageBody() message: string, @ConnectedSocket() client: Socket): void 
     {
-        console.log(message);
-        this.allMessages.push(message);
-        this.server.emit('newMessage', message); //ici le server websocket envoie les messages qu'il reçoit à tous les clients qui sont connectés
-        return message + ' Hello'; // le return sert à renvoyé son message au client l'ayant émis, de cette manière tlmd reçoit le message y compris celui qui l'a émis
+        const chatMessage = this.chatService.addMessage(message, client.id);
+        this.server.emit('newMessage', chatMessage); //ici le server websocket envoie les messages qu'il reçoit à tous les clients qui sont connectés
     }
 
     //Cette fonction sert à inscrire dans le terminal l'ID du client qui vient de se connecter.
     //Elle sert également à lui envoyé tous les messages précédemment émis.
     handleConnection(client: Socket, ...args: any[]): any
     {
-        console.log('Client n° connected : ', client.id);
-        client.emit('allMessages', this.allMessages); //Lorsque le client se connecte, on lui envoie à LUI tous les messages précédant
+        client.emit('allMessages', this.chatService.getMessages()); //Lorsque le client se connecte, on lui envoie à LUI tous les messages précédant
+        this.server.emit('clients', Array.from(this.chatService.getClients()));
     }
 
     //Cette fonction sert à inscrire dans le terminal l'ID du client qui vient de se déconnecter.
     handleDisconnect(client: Socket): any
     {
-        this.clients.delete(client.id);
-        console.log('Client n° disconnected : ', this.clients);
-
+        this.chatService.deleteClients(client.id);
+        this.server.emit('clients', Array.from(this.chatService.getClients()));
     }
 
     @SubscribeMessage('nickname')
-
-    handleNicknameEvent(@MessageBody() nickname: string,
+    handleNicknameEvent(
+    @MessageBody() nickname: string,
     @ConnectedSocket() client: Socket): void 
     {
-        this.clients.set(client.id, nickname);
-        console.log('Client\'s ID are : ', this.clients);
-        this.server.emit('clients', Array.from(this.clients.values()));
+        this.chatService.addClients(client.id, nickname);
+        this.server.emit('clients', Array.from(this.chatService.getClients()));
     }
 }

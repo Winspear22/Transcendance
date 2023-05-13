@@ -2,6 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ChatService } from './shared/chat.service';
 import { Observable, Subject, take, takeUntil } from 'rxjs';
+import { ChatClient } from './shared/chat-client';
+import { ChatMessage } from './shared/chat-message';
 
 /*===========================================================================================*/
 /*------------------------A QUOI SERT LE FICHIER CHAT.COMPONENT.TS ?-------------------------*/
@@ -25,12 +27,12 @@ export class ChatComponent implements OnInit, OnDestroy
   constructor(private chatService: ChatService) {}
 
   message = new FormControl();
-  messages: string[] = [];
+  messages: ChatMessage[] = [];
   unsubscriber$ = new Subject();
   
   nickname: string | undefined;
   nickNameFc = new FormControl();
-  clients$: Observable<string[]> | undefined;
+  clients$: Observable<ChatClient[]> | undefined;
   ngOnInit(): void 
   {
     this.clients$ = this.chatService.listenForClients();
