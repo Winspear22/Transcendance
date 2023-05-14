@@ -28,9 +28,15 @@ export class ChatService {
 
   /*--------------MESSAGE MANAGEMENT--------------*/
   constructor(private socket: Socket) { }
+  chatClient: ChatClient | undefined;
+
   sendMessage(msg: string): void 
   {
     this.socket.emit('message', msg);
+  }
+  sendTyping(typing: boolean): void 
+  {
+    this.socket.emit('typing', typing);
   }
 
   getAllMessages(): Observable<ChatMessage[]>
@@ -45,6 +51,12 @@ export class ChatService {
     return this.socket
     .fromEvent<ChatMessage>('newMessage');
 
+  }
+
+  listenForClientTyping(): Observable<ChatClient> 
+  {
+    return this.socket
+      .fromEvent<ChatClient>('clientTyping');
   }
 
   /*--------------NICKNAME MANAGEMENT--------------*/
@@ -66,6 +78,15 @@ export class ChatService {
     return this.socket
     .fromEvent<WelcomeDto>('welcome');
   }
+
+  /*ERROR MANAGEMENT*/
+  listenForErrors(): Observable<string> 
+  {
+    console.log('Error listened !');
+    return this.socket
+      .fromEvent<string>('error');
+  }
+
 
   /*--------------CONNECTION MANAGEMENT--------------*/
   disconnect(): void 

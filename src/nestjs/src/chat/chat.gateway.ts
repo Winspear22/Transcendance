@@ -33,15 +33,12 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect
         this.server.emit('newMessage', chatMessage); //ici le server websocket envoie les messages qu'il reçoit à tous les clients qui sont connectés
     }
 
-    //Cette fonction sert à inscrire dans le terminal l'ID du client qui vient de se connecter.
-    //Elle sert également à lui envoyé tous les messages précédemment émis.
     handleConnection(client: Socket, ...args: any[]): any
     {
         client.emit('allMessages', this.chatService.getMessages()); //Lorsque le client se connecte, on lui envoie à LUI tous les messages précédant
         this.server.emit('clients', Array.from(this.chatService.getClients()));
     }
 
-    //Cette fonction sert à inscrire dans le terminal l'ID du client qui vient de se déconnecter.
     handleDisconnect(client: Socket): any
     {
         this.chatService.deleteClients(client.id);
@@ -53,10 +50,28 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect
     @MessageBody() nickname: string,
     @ConnectedSocket() client: Socket): void 
     {
-        const chatClient = this.chatService.addClients(client.id, nickname);
-        const welcome: WelcomeDto = { clients: this.chatService.getClients(),
-        messages: this.chatService.getMessages(), client: chatClient };
-        client.emit('welcome', welcome);
-        this.server.emit('clients', Array.from(this.chatService.getClients()));
+        try 
+        {
+            const chatClient = this.chatService.addClients(client.id, nickname);
+            const welcome: WelcomeDto = { clients: this.chatService.getClients(),
+            messages: this.chatService.getMessages(), client: chatClient };
+            client.emit('welcome', welcome);
+            this.server.emit('clients', Array.from(this.chatService.getClients()));
+        }
+        catch (e)
+        {
+            client.emit('error', e.message);
+        }
+    }
+
+    @SubscribeMessage('typing')
+    handleTypingEvent(
+      @MessageBody() typing: boolean,
+      @ConnectedSocket() client: Socket,
+    ): void {
+      const chatClient = this.chatService.updateTyping(typing, client.id);
+      if (chatClient) {
+        this.server.emit('clientTyping', chatClient);
+      }
     }
 }

@@ -18,9 +18,23 @@ export class ChatService
 
     addClients(id: string, nickname: string): ChatClient
     {
-        const chatClient: ChatClient = { id: id, nickname: nickname };
-        this.clients.push(chatClient);
-        return chatClient;
+        let chatClient = this.clients.find(
+            (c) => c.nickname === nickname && c.id === id,
+          );
+          if (chatClient) 
+          {
+            console.log('JE SUIS ICI 1');
+            return chatClient;
+          }
+          if (this.clients.find((c) => c.nickname === nickname)) 
+          {
+            console.log('JE SUIS ICI 2');
+            throw new Error('Nickname already used!');
+          }
+          console.log('JE SUIS ICI 3');
+          chatClient = { id: id, nickname: nickname };
+          this.clients.push(chatClient);
+          return chatClient;
     }
 
     getClients(): ChatClient[]
@@ -36,5 +50,13 @@ export class ChatService
     deleteClients(id: string): void
     {
         this.clients = this.clients.filter(c => c.id !== id);
+    }
+
+    updateTyping(typing: boolean, id: string): ChatClient {
+        const chatClient = this.clients.find((c) => c.id === id);
+        if (chatClient && chatClient.typing !== typing) {
+          chatClient.typing = typing;
+          return chatClient;
+        }
     }
 }

@@ -4,6 +4,7 @@ import { ChatService } from './shared/chat.service';
 import { Observable, Subject, take, takeUntil } from 'rxjs';
 import { ChatClient } from './shared/chat-client';
 import { ChatMessage } from './shared/chat-message';
+import { debounceTime } from 'rxjs';
 
 /*===========================================================================================*/
 /*------------------------A QUOI SERT LE FICHIER CHAT.COMPONENT.TS ?-------------------------*/
@@ -28,32 +29,56 @@ export class ChatComponent implements OnInit, OnDestroy
 
   message = new FormControl();
   messages: ChatMessage[] = [];
-  unsubscriber$ = new Subject();
+  unsubscribe$ = new Subject();
   
-//  nickname: string | undefined;
   nickNameFc = new FormControl();
   clients$: Observable<ChatClient[]> | undefined;
+  error$: Observable<string> | undefined;
+
+  clientsTyping: ChatClient[] = [];
+
 
   chatClient: ChatClient | undefined;
   ngOnInit(): void 
   {
     this.clients$ = this.chatService.listenForClients();
+    this.error$ = this.chatService.listenForErrors();
+    this.message.valueChanges
+      .pipe(
+        takeUntil(this.unsubscribe$),
+        debounceTime(800)
+      )
+      .subscribe((value) => {
+        this.chatService.sendTyping(value.length > 0);
+      });
     console.log('Client\'s connection has been enabled');
-    this.chatService.listenForMessages()
-      .pipe(takeUntil(this.unsubscriber$))
+        this.chatService.listenForMessages()
+      .pipe(takeUntil(this.unsubscribe$))
       .subscribe( message => {console.log('hellooo'), this.messages.push(message);});
-    //this.chatService.getAllMessages()
-    //  .pipe(take(1))
-    //  .subscribe( messages => {console.log('hellooo'); this.messages = messages;});
-      this.chatService.connect();
+    console.log('Client\'s nickname is : ', this.nickNameFc.value);
+    this.chatService.listenForClientTyping()
+    .pipe(
+      takeUntil(this.unsubscribe$)
+    )
+    .subscribe((chatClient) => {
+      if (chatClient.typing && !this.clientsTyping.find((c) => c.id === chatClient.id)) {
+        this.clientsTyping.push(chatClient);
+      } else {
+        this.clientsTyping = this.clientsTyping.filter((c) => c.id !== chatClient.id);
+      }
+    });
+    this.chatService.listenForWelcome()
+    .pipe(takeUntil(this.unsubscribe$))
+    .subscribe( welcome => {this.messages = welcome.messages; this.chatClient = this.chatService.chatClient = welcome.client;});
+    if (this.chatService.chatClient)
+      this.chatService.sendNickname(this.chatService.chatClient.nickname);
   }
 
   ngOnDestroy(): void
   {
     console.log('Client\'s connection has been destroyed');
-    this.unsubscriber$.next(true);
-    this.unsubscriber$.complete();
-    this.chatService.disconnect();
+    this.unsubscribe$.next(true);
+    this.unsubscribe$.complete();
   }
 
   sendMessage(): void 
@@ -65,15 +90,7 @@ export class ChatComponent implements OnInit, OnDestroy
   sendNickname(): void
   {
     if (this.nickNameFc.value)
-    {
-      console.log('Client\'s nickname is : ', this.nickNameFc.value);
-      //this.nickname = this.nickNameFc.value;
-      this.chatService.listenForWelcome()
-      .pipe(takeUntil(this.unsubscriber$))
-      .subscribe( welcome => {this.messages = welcome.messages; this.chatClient = welcome.client;});
-
       this.chatService.sendNickname(this.nickNameFc.value);
-    }
 
   }
 }
