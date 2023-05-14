@@ -46,7 +46,7 @@ export class ChatComponent implements OnInit, OnDestroy
     this.message.valueChanges
       .pipe(
         takeUntil(this.unsubscribe$),
-        debounceTime(800)
+        debounceTime(250)
       )
       .subscribe((value) => {
         this.chatService.sendTyping(value.length > 0);
@@ -85,6 +85,7 @@ export class ChatComponent implements OnInit, OnDestroy
   {
     console.log(this.message.value);
     this.chatService.sendMessage(this.message.value);
+    this.message.patchValue('');
   }
 
   sendNickname(): void

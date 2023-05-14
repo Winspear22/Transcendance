@@ -33,6 +33,7 @@ export class ChatService {
   sendMessage(msg: string): void 
   {
     this.socket.emit('message', msg);
+    
   }
   sendTyping(typing: boolean): void 
   {
