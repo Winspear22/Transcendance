@@ -7,7 +7,7 @@ export class My_Message {
   @PrimaryGeneratedColumn()
   message_id: number;
 
-  @Column()
+  /*@Column()
   content: string;
 
   @Column()
@@ -17,5 +17,5 @@ export class My_Message {
   sender: My_Player;
 
   @ManyToOne(() => My_ChatRoom, (chat_room) => chat_room.messages)
-  chatroom: My_ChatRoom;
+  chatroom: My_ChatRoom;*/
 }

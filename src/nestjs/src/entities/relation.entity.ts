@@ -6,12 +6,12 @@ export class My_Relation {
   @PrimaryGeneratedColumn()
   relation_id: number;
 
-  @Column()
+  /*@Column()
   relationStatus: string;
 
   @Column()
   receiver: number;
 
   @ManyToOne(() => My_Player, (player) => player.receivedRelations)
-  receiverPlayer: My_Player;
+  receiverPlayer: My_Player;*/
 }

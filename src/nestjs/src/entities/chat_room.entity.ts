@@ -7,7 +7,7 @@ export class My_ChatRoom {
   @PrimaryGeneratedColumn()
   chatroom_id: number;
 
-  @Column()
+  /*@Column()
   password: string;
 
   @Column()
@@ -29,5 +29,5 @@ export class My_ChatRoom {
   messages: My_Message[];
 
   @OneToMany(() => My_Membership, (membership) => membership.chatroom)
-  memberships: My_Membership[];
+  memberships: My_Membership[];*/
 }

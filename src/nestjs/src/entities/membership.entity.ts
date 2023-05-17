@@ -6,7 +6,7 @@ import { My_ChatRoom } from './chat_room.entity';
 export class My_Membership {
   @PrimaryGeneratedColumn()
   membership_id: number;
-  @Column()
+  /*@Column()
   chatroom_id: number;
   @Column()
   role: string;
@@ -19,5 +19,5 @@ export class My_Membership {
   user: My_Player;
 
   @ManyToOne(() => My_ChatRoom, (chat_room) => chat_room.memberships)
-  chatroom: My_ChatRoom;
+  chatroom: My_ChatRoom;*/
 }

@@ -6,7 +6,7 @@ export class My_GameHistory {
   @PrimaryGeneratedColumn()
   gamehistory_id: number;
 
-  @Column()
+  /*@Column()
   mode: string;
 
   @Column()
@@ -28,6 +28,6 @@ export class My_GameHistory {
   winnerPlayer: My_Player;
 
   @ManyToOne(() => My_Player, (player) => player.lostGames)
-  loserPlayer: My_Player;
+  loserPlayer: My_Player;*/
 
 }

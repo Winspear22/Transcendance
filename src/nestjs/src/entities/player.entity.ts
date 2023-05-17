@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, PrimaryColumn } from 'typeorm';
 import { My_Message } from './message.entity';
 import { My_Membership } from './membership.entity';
 import { My_GameHistory } from './game_history.entity';
@@ -6,14 +6,16 @@ import { My_Relation } from './relation.entity';
 
 @Entity('players')
 export class My_Player {
-  @PrimaryGeneratedColumn()
-  player_id: number;
+  @PrimaryColumn({unique: true})
+  id: string;
 
-  @Column()
+  @Column({unique: true})
+  nickname: string;
+
+  /*@Column()
   mail: string;
 
-  @Column()
-  username: string;
+
 
   @Column()
   password: string
@@ -49,5 +51,5 @@ export class My_Player {
   lostGames: My_GameHistory[];
 
   @OneToMany(() => My_Relation, (relation) => relation.receiverPlayer)
-  receivedRelations: My_Relation[];
+  receivedRelations: My_Relation[];*/
 }
