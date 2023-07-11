@@ -1,0 +1,122 @@
+@import '~/assets/Palette.scss';
+
+@font-face {
+  font-family: "Josefin Sans";
+  src: url(~/assets/fonts/JosefinSans.ttf);
+}
+
+@import '~/assets/Palette.scss';
+
+html {
+  overflow: auto !important; // Override vuetify scroll-bar
+}
+
+a {
+  text-decoration: none;
+}
+
+h1, h2, h3, h4, h5, h6, p, span {
+  color: $pg-white;
+}
+
+* {
+  font-family: "Josefin Sans";
+}
+
+.dbtxt {
+  color: $pg-dark-blue;
+}
+
+.cantSelect {
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
+  user-select: none; /* Standard */
+}
+
+.flexHVcenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+canvas {
+  margin: 0;
+  padding: 0;
+  display:block;
+  position: absolute;
+  top: 0px;
+} // Make canvas fullscreen and responsive
+
+.useWholePage {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.flexAlignRow {
+  display: flex;
+  flex-direction: row;
+}
+
+.flexAlignCol {
+  display: flex;
+  flex-direction: column;
+}
+
+// Common Backgrounds
+
+.playerRed {
+  background-color: $pc-red;
+  box-shadow: 0px 0px 30px 5px $pc-red;
+}
+
+.playerGreen {
+  background-color: $pc-green;
+  box-shadow: 0px 0px 30px 5px $pc-green;
+}
+
+.playerBlue {
+  background-color: $pc-blue;
+  box-shadow: 0px 0px 30px 5px $pc-blue;
+}
+
+.playerYellow {
+  background-color: $pc-yellow;
+  box-shadow: 0px 0px 30px 5px $pc-yellow;
+}
+
+.playerPurple {
+  background-color: $pc-purple;
+  box-shadow: 0px 0px 30px 5px $pc-purple;
+}
+
+.playerPink {
+  background-color: $pc-pink;
+  box-shadow: 0px 0px 30px 5px $pc-pink;
+}
+
+.redBg {
+  background: $pg-red !important;
+}
+
+.greenBg {
+  background: $pg-green !important;
+}
+
+// Scroll bar
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 3px $pg-grey;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $pg-dark-blue;
+  border-radius: 10px;
+}

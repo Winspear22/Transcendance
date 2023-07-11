@@ -1,0 +1,243 @@
+@import '~/assets/Palette.scss';
+
+.content{
+    background-color: $pg-grey;
+    align-items: unset;
+}
+
+.chatChamp, .connected {
+    height: calc(100% - 64px);
+}
+
+.chatChamp{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    max-width: 1087px;
+    width: 60%;
+    min-width: 600px;
+    background-color: $pg-dark-blue;
+    padding: 16px;
+    align-items: center;
+}
+
+.connected{
+    max-width: 320px;
+    min-width: 200px;
+    width: 25%;
+    background-color: $pg-blue;
+    justify-content: space-between;
+}
+
+.chatfield{
+    display: flex;
+    justify-content: space-between;
+    width: 95%;
+    height: 40px;
+}
+
+.chatfield input {
+    background-color: $pg-blue;
+    width: 90%;
+    height: 100%;
+    border-radius: 10px;
+    margin-right: 16px;
+    color: $pg-white;
+    padding: 7px;
+}
+
+.sendBtn, .settingBtn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: $pg-white;
+    cursor: pointer;
+}
+
+.imgIcone {
+    width: 50px;
+    height: 30px;
+    filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.5));
+    cursor: pointer;
+}
+
+.received{
+    display: flex;
+    flex-direction: column-reverse;
+    width: 100%;
+    height: calc(100vh - 235px);
+    background-color: $pg-dark-blue;
+    overflow-y: auto;
+}
+
+.received::-webkit-scrollbar-thumb {
+  background: $pg-blue;
+}
+
+.chatMain{
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    height: 100%;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#chatContent {
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+}
+
+ul {
+    list-style: none;
+}
+
+.listChannel{
+    overflow-y: auto;
+    height: 100%;
+}
+
+.listChannel li{
+    cursor: pointer;
+}
+
+.chatRoomName {
+    width: 100%;
+    height: 72px;
+    background-color: $pg-blue;
+    border-radius: 10px;
+    margin-bottom: 16px;
+    padding: 16px;
+    justify-content: space-between;
+}
+
+.search, .creatChatRoom{
+    width: 100%;
+    height: 88px;
+    background-color: $pg-dark-blue;
+}
+
+#createChatRoomBtn{
+    width: 85%;
+    height: 32px;
+    text-transform: none;
+    font-size: 18px;
+    background-color: $pg-white;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+    padding: 7px 32px;
+}
+
+.BtnTxt{
+    color:$pg-dark-blue !important;
+}
+
+.channelImg{
+    max-width: 40px;
+    max-height: 40px;
+    margin-right: 16px;
+    border-radius: 150px;
+}
+
+.chatRoomName p{
+    margin: auto 0px;
+    font-size: 20px;
+    color: $pg-white;
+    overflow-wrap: anywhere;
+}
+
+.chatRoomNameLeft {
+    width: 70%;
+}
+
+.cursor{
+    cursor: pointer;
+}
+
+.newMsg{
+    display: flex;
+    margin: 16px 7px;
+}
+
+.msgAvatar{
+    width: 50px;
+    height: 50px;
+    border-radius: 150px;
+}
+
+.msgDiv{
+    margin-left: 16px;
+}
+
+.msgContent{
+    background-color: $pg-blue;
+    border-radius: 10px 10px 10px 0;
+    max-width: 500px;
+    padding: 7px;
+    color: $pg-white;
+    margin-top: 8px;
+    overflow-wrap: anywhere;
+    white-space: pre-line;
+}
+
+h1{
+    font-size: 35px;
+    margin: 16px auto;
+    color: $pg-white;
+    text-align: center;
+    font-weight: normal;
+}
+
+.DoneBtn, .BlockBtn{
+    width: 256px;
+    height: 32px;
+    margin: 8px auto;
+    text-transform: none;
+    font-size: 18px;
+    background-color: $pg-green !important;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+    padding: 7px 32px;
+    color: $pg-white;
+}
+
+.BlockBtn{
+    background-color: $pg-red !important;
+}
+
+.SettingInput{
+    width: 256px !important;
+    max-height: 32px !important;
+}
+
+.visibility{
+    margin: 7px auto;
+    width: 200px;
+    color: $pg-white;
+}
+
+.visibility input{
+    margin: 0 0 7px 16px;
+}
+
+.addPassword{
+    color: $pg-white;
+    margin: 7px;
+}
+
+#settingModal{
+    margin: 40px 0;
+}
+
+.memberList {
+  display: flex;
+  justify-content: center;
+  width: 30%;
+}
+
+.avatar {
+    width: 100px;
+    height: 100px;
+    margin: 0;
+}
